@@ -63,7 +63,7 @@ namespace challenge.Services
         {
             if(!String.IsNullOrEmpty(id))
             {
-                 int numberOfReports = calulateReport(id);
+                 int numberOfReports = CalculateReport(id);
                  var employee = _employeeRepository.GetById(id);
                 if (employee != null)
                 {
@@ -77,10 +77,10 @@ namespace challenge.Services
 
             return null;
         }
-        private int calulateReport(string id)
+        private int CalculateReport(string id)
         {
             var employee = _employeeRepository.GetById(id);
-            if (employee.DirectReports == null || employee.DirectReports.Count == 0)
+            if (employee == null || employee.DirectReports.Count == 0)
             {
                 return 0;
             }
@@ -88,7 +88,7 @@ namespace challenge.Services
             int totalReports = 0;
             foreach (var directReport in employee.DirectReports)
             {
-                totalReports += 1 + calulateReport(directReport.EmployeeId);
+                totalReports += 1 + CalculateReport(directReport.EmployeeId);
             }
 
             return totalReports;
