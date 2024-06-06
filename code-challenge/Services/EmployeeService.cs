@@ -59,5 +59,42 @@ namespace challenge.Services
 
             return newEmployee;
         }
+        public ReportingStructure GetReport(string id)
+        {
+            if(!String.IsNullOrEmpty(id))
+            {
+                 int numberOfReports = calulateReport(id);
+                 var employee = _employeeRepository.GetById(id);
+                if (employee != null)
+                {
+                    return new ReportingStructure
+                    {
+                     Employee = employee,
+                     NumberOfReports = numberOfReports
+                   };
+                };
+            }
+
+            return null;
+        }
+        private int calulateReport(string id)
+        {
+            var employee = _employeeRepository.GetById(id);
+            if (employee.DirectReports == null || employee.DirectReports.Count == 0)
+            {
+                return 0;
+            }
+
+            int totalReports = 0;
+            foreach (var directReport in employee.DirectReports)
+            {
+                totalReports += 1 + calulateReport(directReport.EmployeeId);
+            }
+
+            return totalReports;
+        }
+
+
+
     }
 }
