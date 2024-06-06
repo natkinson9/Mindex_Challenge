@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,18 +9,20 @@ using challenge.Data;
 
 namespace challenge.Repositories
 {
-    public class EmployeeRespository : IEmployeeRepository
+    public class CompensationRespository : ICompensationRepository
     {
         private readonly EmployeeContext _employeeContext;
-        private readonly ILogger<IEmployeeRepository> _logger;
+        private readonly CompensationContext _compensationContext;
+        private readonly ILogger<ICompensationRepository> _logger;
 
-        public EmployeeRespository(ILogger<IEmployeeRepository> logger, EmployeeContext employeeContext)
+        public CompensationRespository(ILogger<ICompensationRepository> logger, EmployeeContext employeeContext, CompensationContext compensationContext)
         {
             _employeeContext = employeeContext;
+            _compensationContext = compensationContext;
             _logger = logger;
         }
 
-        public Employee Add(Employee employee)
+        public Compensation Add(Employee employee)
         {
             employee.EmployeeId = Guid.NewGuid().ToString();
             _employeeContext.Employees.Add(employee);

@@ -7,9 +7,9 @@ namespace challenge.Models
 {
     public class Compensation
     {
-        public String EmployeeId { get; set; }
-        public String FirstName { get; set; }
-        public String LastName { get; set; }
+        public Employee Employee { get; set; }
+        public Float Salary { get; set; }
+        public DateTime effectiveDate { get; set; }
         public String Position { get; set; }
         public String Department { get; set; }
         public List<Employee> DirectReports { get; set; }
