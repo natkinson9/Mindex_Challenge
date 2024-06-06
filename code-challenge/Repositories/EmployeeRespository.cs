@@ -29,8 +29,21 @@ namespace challenge.Repositories
 
         public Employee GetById(string id)
         {
-            return _employeeContext.Employees.Include(e => e.DirectReports).SingleOrDefault(e => e.EmployeeId == id);
+            //Due to Lazy loading issues with Entity Frameowrk, .Include is necessary to reference DirectReports
+            var employee = _employeeContext.Employees.Include(e => e.DirectReports).SingleOrDefault(e => e.EmployeeId == id);
+            LoadDirectReports(employee);
+            return employee;
         }
+
+        private void LoadDirectReports(Employee employee)
+        {
+            _employeeContext.Entry(employee).Collection(e => e.DirectReports).Load();
+
+            foreach (var directReport in employee.DirectReports)
+            {
+               LoadDirectReports(directReport);
+            }
+       }
 
         public Task SaveAsync()
         {
