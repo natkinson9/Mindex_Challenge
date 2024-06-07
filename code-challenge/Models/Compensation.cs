@@ -10,8 +10,5 @@ namespace challenge.Models
         public Employee Employee { get; set; }
         public Float Salary { get; set; }
         public DateTime effectiveDate { get; set; }
-        public String Position { get; set; }
-        public String Department { get; set; }
-        public List<Employee> DirectReports { get; set; }
     }
 }

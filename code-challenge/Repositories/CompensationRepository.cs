@@ -15,34 +15,31 @@ namespace challenge.Repositories
         private readonly CompensationContext _compensationContext;
         private readonly ILogger<ICompensationRepository> _logger;
 
-        public CompensationRespository(ILogger<ICompensationRepository> logger, EmployeeContext employeeContext, CompensationContext compensationContext)
+        public CompensationRespository(ILogger<ICompensationRepository> logger, CompensationContext compensationContext)
         {
-            _employeeContext = employeeContext;
             _compensationContext = compensationContext;
             _logger = logger;
         }
 
-        public Compensation Add(Employee employee)
+        public Compensation Add(Compensation compensation)
         {
-            employee.EmployeeId = Guid.NewGuid().ToString();
-            _employeeContext.Employees.Add(employee);
-            return employee;
+            _compensationContext.Add(compensation);
+            return compensation;
         }
 
-        public Employee GetById(string id)
+        public Compensation GetById(string id)
         {
-            //Due to Lazy loading issues with Entity Frameowrk, .Include is necessary to reference DirectReports
-            return _employeeContext.Employees.Include(e => e.DirectReports).SingleOrDefault(e => e.EmployeeId == id);
+            return _compensationContext.Compensations.SingleOrDefault(e => e.Employee.EmployeeId == id);
         }
 
         public Task SaveAsync()
         {
-            return _employeeContext.SaveChangesAsync();
+            return _compensationContext.SaveChangesAsync();
         }
 
-        public Employee Remove(Employee employee)
+        public Compensation Remove(Compensation compensation)
         {
-            return _employeeContext.Remove(employee).Entity;
+            return _compensationContext.Remove(compensation).Entity;
         }
     }
 }
