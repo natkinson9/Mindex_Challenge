@@ -28,7 +28,7 @@ namespace challenge.Controllers
 
             _compensationService.Create(compensation);
 
-            return CreatedAtRoute("getCompensationById", new { id = compensation.Employee }, compensation);
+            return CreatedAtRoute("getCompensationById", new { id = compensation.EmployeeId }, compensation);
         }
 
         [HttpGet("{id}", Name = "getCompensationById")]
@@ -42,6 +42,7 @@ namespace challenge.Controllers
                 return NotFound();
 
             return Ok(compensation);
+            
         }
 
     }

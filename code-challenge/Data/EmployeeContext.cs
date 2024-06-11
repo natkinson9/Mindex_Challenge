@@ -17,7 +17,7 @@ namespace challenge.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Compensation>()
-                .HasKey(c => c.Employee);
+                .HasKey(c => c.EmployeeId);
 
         }
         public DbSet<Employee> Employees { get; set; }

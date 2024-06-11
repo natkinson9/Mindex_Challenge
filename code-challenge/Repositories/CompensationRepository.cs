@@ -22,13 +22,13 @@ namespace challenge.Repositories
 
         public Compensation Add(Compensation compensation)
         {
-            var employeeExists = _employeeContext.Employees.SingleOrDefault(e => e.EmployeeId == compensation.Employee) != null;
+            var employeeExists = _employeeContext.Employees.SingleOrDefault(e => e.EmployeeId == compensation.EmployeeId) != null;
             return employeeExists ? _employeeContext.Add(compensation).Entity : null;
         }
 
         public Compensation GetById(string id)
         {
-            return _employeeContext.Compensations.SingleOrDefault(c => c.Employee == id);
+            return _employeeContext.Compensations.SingleOrDefault(c => c.EmployeeId == id);
         }
 
         public Task SaveAsync()

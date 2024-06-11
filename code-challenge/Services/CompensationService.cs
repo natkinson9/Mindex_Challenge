@@ -11,11 +11,14 @@ namespace challenge.Services
     public class CompensationService : ICompensationService
     {
         private readonly ICompensationRepository _compensationRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+
         private readonly ILogger<CompensationService> _logger;
 
-        public CompensationService(ILogger<CompensationService> logger, ICompensationRepository compensationRepository)
+        public CompensationService(ILogger<CompensationService> logger, ICompensationRepository compensationRepository, IEmployeeRepository employeeRepository)
         {
             _compensationRepository = compensationRepository;
+            _employeeRepository = employeeRepository;
             _logger = logger;
         }
 
@@ -35,7 +38,12 @@ namespace challenge.Services
         {
             if(!String.IsNullOrEmpty(id))
             {
-                return _compensationRepository.GetById(id);
+                var compensation = _compensationRepository.GetById(id);
+                if (compensation != null)
+                {
+                    compensation.Employee = _employeeRepository.GetById(compensation.EmployeeId);
+                }
+                return compensation;
             }
 
             return null;
