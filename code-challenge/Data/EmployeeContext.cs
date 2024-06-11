@@ -11,7 +11,7 @@ namespace challenge.Data
     {
         public EmployeeContext(DbContextOptions<EmployeeContext> options) : base(options)
         {
-
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
