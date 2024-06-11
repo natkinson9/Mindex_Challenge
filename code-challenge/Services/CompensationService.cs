@@ -23,8 +23,9 @@ namespace challenge.Services
         {
             if(compensation != null)
             {
-                return _compensationRepository.Add(compensation);
+                var created = _compensationRepository.Add(compensation);
                 _compensationRepository.SaveAsync().Wait();
+                return created;
             }
             return null;
             
