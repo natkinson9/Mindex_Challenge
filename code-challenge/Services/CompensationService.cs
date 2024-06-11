@@ -23,11 +23,11 @@ namespace challenge.Services
         {
             if(compensation != null)
             {
-                _compensationRepository.Add(compensation);
+                var created = _compensationRepository.Add(compensation);
                 _compensationRepository.SaveAsync().Wait();
             }
 
-            return compensation;
+            return created != null ? compensation : null;
         }
 
         public Compensation GetById(string id)

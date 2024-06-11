@@ -12,34 +12,33 @@ namespace challenge.Repositories
     public class CompensationRespository : ICompensationRepository
     {
         private readonly EmployeeContext _employeeContext;
-        private readonly CompensationContext _compensationContext;
         private readonly ILogger<ICompensationRepository> _logger;
 
-        public CompensationRespository(ILogger<ICompensationRepository> logger, CompensationContext compensationContext)
+        public CompensationRespository(ILogger<ICompensationRepository> logger, EmployeeContext employeeContext)
         {
-            _compensationContext = compensationContext;
+            _employeeContext = employeeContext;
             _logger = logger;
         }
 
         public Compensation Add(Compensation compensation)
         {
-            _compensationContext.Add(compensation);
-            return compensation;
+            var employeeExists = _employeeContext.Employees.SingleOrDefault(e => e.EmployeeId == compensation.Employee) != null;
+            return employeeExists ? _employeeContext.Add(compensation).Entity : null;
         }
 
         public Compensation GetById(string id)
         {
-            return _compensationContext.Compensations.SingleOrDefault(e => e.Employee.EmployeeId == id);
+            return _employeeContext.Compensations.SingleOrDefault(c => c.Employee == id);
         }
 
         public Task SaveAsync()
         {
-            return _compensationContext.SaveChangesAsync();
+            return _employeeContext.SaveChangesAsync();
         }
 
         public Compensation Remove(Compensation compensation)
         {
-            return _compensationContext.Remove(compensation).Entity;
+            return _employeeContext.Remove(compensation).Entity;
         }
     }
 }

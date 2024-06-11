@@ -24,11 +24,11 @@ namespace challenge.Controllers
         [HttpPost]
         public IActionResult CreateCompensation([FromBody] Compensation compensation)
         {
-            _logger.LogDebug($"Received compensation create request for '{compensation.Employee.FirstName} {compensation.Employee.LastName}'");
+            _logger.LogDebug($"Received compensation create request");
 
             _compensationService.Create(compensation);
 
-            return CreatedAtRoute("getCompensationById", new { id = compensation.CompensationId }, compensation);
+            return CreatedAtRoute("getCompensationById", new { id = compensation.Employee }, compensation);
         }
 
         [HttpGet("{id}", Name = "getCompensationById")]

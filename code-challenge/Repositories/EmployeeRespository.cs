@@ -37,11 +37,14 @@ namespace challenge.Repositories
 
         private void LoadDirectReports(Employee employee)
         {
+            if (employee != null)
+            {
             _employeeContext.Entry(employee).Collection(e => e.DirectReports).Load();
 
             foreach (var directReport in employee.DirectReports)
             {
                LoadDirectReports(directReport);
+            }
             }
        }
 
