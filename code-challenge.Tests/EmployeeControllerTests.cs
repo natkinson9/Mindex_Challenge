@@ -138,5 +138,22 @@ namespace code_challenge.Tests.Integration
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        [TestMethod]
+        public void GetReportingStructure_Returns_Ok()
+        {
+            // Arrange
+            var employeeId = "b7839309-3348-463b-a7e3-5de1c168beb3";
+            var expectedReports = 0;
+
+            // Execute
+            var getRequestTask = _httpClient.GetAsync($"api/employee/reportingstructure/{employeeId}");
+            var response = getRequestTask.Result;
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            var structure = response.DeserializeContent<ReportingStructure>();
+            Assert.AreEqual(expectedReports, structure.NumberOfReports);
+        }
     }
 }
